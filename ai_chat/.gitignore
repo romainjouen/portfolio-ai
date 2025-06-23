@@ -1,4 +1,29 @@
+# Environment variables
 .env
 
-/_test/
-/venv/
+# Testing and development
+_test/
+
+# Virtual environments
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# macOS
+.DS_Store
+.DS_Store?
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log

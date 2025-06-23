@@ -9,12 +9,39 @@ This portfolio contains two main AI applications:
 ### 🤖 [AI Chat Interface](./ai_chat/)
 A sophisticated Streamlit-based chat interface supporting multiple AI providers and models.
 
+**What's Inside the ai_chat Folder:**
+```
+ai_chat/
+├── app.py                       # Main Streamlit application entry point
+├── app_chat.py                  # Core chat functionality and UI
+├── app_chat_search.py           # Chat interface with web search capabilities
+├── requirements.txt             # Python dependencies for pip
+├── environment.yml              # Conda environment configuration
+├── instructions.md              # Usage instructions and guidelines
+├── README.md                    # Detailed documentation for the chat app
+├── .gitignore                   # Ignores .env, _test/, and venv/ folders
+├── src/                         # Source code package
+│   ├── config/                  # Configuration management
+│   │   ├── config.py           # Configuration loader and validator
+│   │   ├── config.yaml         # Model settings, API endpoints, defaults
+│   │   └── __init__.py         # Package initialization
+│   └── utils/                   # Core utilities and providers
+│       ├── chat_interface.py   # Chat UI components and state management
+│       ├── llm_provider.py     # Multi-provider LLM integration (OpenAI, Claude, etc.)
+│       ├── web_search_agent.py # Web search functionality for enhanced responses
+│       └── __init__.py         # Package initialization
+├── _test/                       # Testing files and scripts (ignored by git)
+└── venv/                        # Virtual environment (ignored by git)
+```
+
 **Key Features:**
 - Multi-provider support (OpenAI, Anthropic Claude, Google Gemini, Mistral, DeepSeek)
 - Real-time token usage and cost tracking
 - Adjustable temperature settings for response creativity
 - Conversation management and history
 - Modern UI with model selection and configuration
+- Web search integration for enhanced responses
+- Modular architecture with clean separation of concerns
 
 **Models Supported:**
 - OpenAI GPT (3.5-turbo, 4, 4-turbo, 4o)
@@ -22,6 +49,12 @@ A sophisticated Streamlit-based chat interface supporting multiple AI providers 
 - Google Gemini Pro
 - Mistral Medium & Mixtral 8x7B
 - DeepSeek Chat & Reasoner
+
+**Core Components:**
+- **`llm_provider.py`**: Unified interface for all AI providers with automatic fallback
+- **`chat_interface.py`**: Streamlit UI components and conversation state management
+- **`web_search_agent.py`**: Intelligent web search integration for factual responses
+- **`config.yaml`**: Centralized configuration for models, API keys, and defaults
 
 ### 📊 [Data Analysis Platform](./data_analysis/)
 An intelligent data analysis suite that combines AI-powered SQL generation with Python data analysis capabilities.
@@ -51,14 +84,24 @@ portfolio-ai/
 ├── github_commands.md           # Git reference commands
 │
 ├── ai_chat/                     # Chat Interface Application
-│   ├── app.py                   # Main Streamlit chat app
+│   ├── app.py                   # Main Streamlit application entry point
+│   ├── app_chat.py              # Core chat functionality and UI
+│   ├── app_chat_search.py       # Chat with web search capabilities
 │   ├── requirements.txt         # Python dependencies
-│   ├── environment.yml          # Conda environment
+│   ├── environment.yml          # Conda environment configuration
+│   ├── instructions.md          # Usage instructions and guidelines
 │   ├── README.md                # Detailed chat app documentation
+│   ├── .gitignore               # Git ignore rules (excludes _test/, venv/, etc.)
 │   ├── src/
 │   │   ├── config/              # Configuration management
-│   │   └── utils/               # Chat utilities and providers
-│   └── venv/                    # Virtual environment
+│   │   │   ├── config.py       # Configuration loader
+│   │   │   └── config.yaml     # Model and API settings
+│   │   └── utils/               # Core utilities
+│   │       ├── chat_interface.py    # UI components
+│   │       ├── llm_provider.py      # Multi-provider AI integration
+│   │       └── web_search_agent.py  # Web search functionality
+│   ├── _test/                   # Testing files (ignored by git)
+│   └── venv/                    # Virtual environment (ignored by git)
 │
 └── data_analysis/               # Data Analysis Platform
     ├── app.py                   # Main Streamlit analysis app
