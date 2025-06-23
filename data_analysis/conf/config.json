@@ -1,0 +1,28 @@
+{
+    "temperature": 0.0,
+    "postgres": {
+        "host": "localhost",
+        "dbname": "postgres",
+        "user": "postgres",
+        "port": "5432"
+    },
+    "models": {
+        "openai": {
+            "default": "gpt-4o-mini",
+            "router": "gpt-4o-mini",
+            "alternatives": ["gpt-4o", "gpt-3.5-turbo"]
+        },
+        "ollama": {
+            "default": "qwen2.5-coder:32b",
+            "alternatives": [
+                "qwen2.5-coder:32b",
+                "qwen2.5-coder",
+                "qwen2.5-coder:3b",
+                "llama3.3",
+                "qwq",
+                "mistral-small3.1",
+                "//mixtral:8x22b //codestral //codestral:22b //gemma3:27b //codegemma //deepseek-coder-v2 //mixtral:8x7b //deepseek-r1:70b //deepseek-r1:32b //deepseek-r1:8b //codellama:34b "
+            ]
+        }
+    }
+} 

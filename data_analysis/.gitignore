@@ -1,0 +1,10 @@
+.env
+*_ORI.py
+*_OLD.py
+
+_temp/
+_OLD/
+output/
+.github/
+.cursor/
+venv/
