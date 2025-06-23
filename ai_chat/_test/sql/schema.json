@@ -1,0 +1,235 @@
+{
+    "dialect": "sqlite",
+    "tables": [
+        {
+            "name": "rss_feeds",
+            "description": "Contains information about RSS feeds",
+            "sample_size": 5,
+            "common_joins": ["rss_items", "user_feed_preferences"],
+            "usage_frequency": 100,
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "description": "Unique identifier for the RSS feed",
+                    "is_primary_key": true,
+                    "sample_values": ["1", "2", "3"]
+                },
+                {
+                    "name": "name",
+                    "type": "TEXT",
+                    "description": "Name of the RSS feed",
+                    "sample_values": ["AI Daily", "ML Weekly", "IA Nouvelles"]
+                },
+                {
+                    "name": "url",
+                    "type": "TEXT",
+                    "description": "URL of the RSS feed",
+                    "sample_values": ["https://ai-daily.com/feed", "https://mlweekly.com/rss"]
+                },
+                {
+                    "name": "description",
+                    "type": "TEXT",
+                    "description": "Description of the feed content"
+                },
+                {
+                    "name": "site_link",
+                    "type": "TEXT",
+                    "description": "Link to the main website"
+                },
+                {
+                    "name": "language",
+                    "type": "TEXT",
+                    "description": "Language of the feed content",
+                    "sample_values": ["en", "fr"],
+                    "common_filters": ["= 'en'", "= 'fr'"]
+                }
+            ]
+        },
+        {
+            "name": "categories",
+            "description": "Article categories",
+            "sample_size": 7,
+            "common_joins": ["rss_item_categories", "user_category_preferences"],
+            "usage_frequency": 90,
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "description": "Unique identifier for the category",
+                    "is_primary_key": true,
+                    "sample_values": ["1", "2", "3"]
+                },
+                {
+                    "name": "name",
+                    "type": "TEXT",
+                    "description": "Category name",
+                    "sample_values": ["Machine Learning", "Natural Language Processing", "Computer Vision"]
+                },
+                {
+                    "name": "description",
+                    "type": "TEXT",
+                    "description": "Category description"
+                }
+            ]
+        },
+        {
+            "name": "rss_items",
+            "description": "Individual articles from RSS feeds",
+            "sample_size": 1000,
+            "common_joins": ["rss_feeds", "rss_item_categories", "article_interactions"],
+            "usage_frequency": 100,
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "description": "Unique identifier for the article",
+                    "is_primary_key": true
+                },
+                {
+                    "name": "rss_feed_id",
+                    "type": "INTEGER",
+                    "description": "Reference to the RSS feed",
+                    "is_foreign_key": true,
+                    "references": "rss_feeds.id"
+                },
+                {
+                    "name": "title",
+                    "type": "TEXT",
+                    "description": "Article title",
+                    "common_filters": ["LIKE '%AI%'", "LIKE '%ML%'"]
+                },
+                {
+                    "name": "link",
+                    "type": "TEXT",
+                    "description": "URL to the article"
+                },
+                {
+                    "name": "description",
+                    "type": "TEXT",
+                    "description": "Article description"
+                },
+                {
+                    "name": "content",
+                    "type": "TEXT",
+                    "description": "Full article content"
+                },
+                {
+                    "name": "published_date",
+                    "type": "DATETIME",
+                    "description": "Publication date",
+                    "common_filters": ["DATE(published_date) = DATE('now')", "published_date >= datetime('now', '-7 days')"]
+                },
+                {
+                    "name": "author",
+                    "type": "TEXT",
+                    "description": "Article author"
+                }
+            ]
+        },
+        {
+            "name": "users",
+            "description": "User accounts",
+            "sample_size": 5,
+            "common_joins": ["user_category_preferences", "user_feed_preferences", "article_interactions"],
+            "usage_frequency": 100,
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "description": "Unique identifier for the user",
+                    "is_primary_key": true
+                },
+                {
+                    "name": "username",
+                    "type": "TEXT",
+                    "description": "User's username",
+                    "sample_values": ["alice_ai", "bob_ml", "charlie_nlp"]
+                },
+                {
+                    "name": "email",
+                    "type": "TEXT",
+                    "description": "User's email address",
+                    "sample_values": ["alice@example.com", "bob@example.com"]
+                },
+                {
+                    "name": "password_hash",
+                    "type": "TEXT",
+                    "description": "Hashed password"
+                },
+                {
+                    "name": "created_at",
+                    "type": "DATETIME",
+                    "description": "Account creation date"
+                },
+                {
+                    "name": "last_login",
+                    "type": "DATETIME",
+                    "description": "Last login timestamp"
+                }
+            ]
+        },
+        {
+            "name": "article_interactions",
+            "description": "User interactions with articles",
+            "sample_size": 1000,
+            "common_joins": ["users", "rss_items"],
+            "usage_frequency": 95,
+            "columns": [
+                {
+                    "name": "id",
+                    "type": "INTEGER",
+                    "description": "Unique identifier for the interaction",
+                    "is_primary_key": true
+                },
+                {
+                    "name": "user_id",
+                    "type": "INTEGER",
+                    "description": "Reference to the user",
+                    "is_foreign_key": true,
+                    "references": "users.id"
+                },
+                {
+                    "name": "rss_item_id",
+                    "type": "INTEGER",
+                    "description": "Reference to the article",
+                    "is_foreign_key": true,
+                    "references": "rss_items.id"
+                },
+                {
+                    "name": "interaction_type",
+                    "type": "TEXT",
+                    "description": "Type of interaction",
+                    "sample_values": ["view", "like", "share"],
+                    "common_filters": ["= 'like'", "= 'share'"]
+                },
+                {
+                    "name": "interaction_time",
+                    "type": "DATETIME",
+                    "description": "When the interaction occurred"
+                }
+            ]
+        }
+    ],
+    "table_relationships": {
+        "rss_feeds": ["rss_items", "user_feed_preferences"],
+        "categories": ["rss_item_categories", "user_category_preferences"],
+        "rss_items": ["rss_feeds", "rss_item_categories", "article_interactions"],
+        "users": ["user_category_preferences", "user_feed_preferences", "article_interactions"],
+        "article_interactions": ["users", "rss_items"]
+    },
+    "sample_queries": [
+        {
+            "natural_query": "Find all articles from AI Daily published in the last 7 days",
+            "sql": "SELECT ri.title, ri.description, ri.published_date FROM rss_items ri JOIN rss_feeds rf ON ri.rss_feed_id = rf.id WHERE rf.name = 'AI Daily' AND ri.published_date >= datetime('now', '-7 days')"
+        },
+        {
+            "natural_query": "Get the most popular articles based on user interactions",
+            "sql": "SELECT ri.title, COUNT(ai.id) as interaction_count FROM rss_items ri LEFT JOIN article_interactions ai ON ri.id = ai.rss_item_id GROUP BY ri.id ORDER BY interaction_count DESC LIMIT 10"
+        },
+        {
+            "natural_query": "Find all Machine Learning articles that users have liked",
+            "sql": "SELECT DISTINCT ri.title, ri.description FROM rss_items ri JOIN rss_item_categories ric ON ri.id = ric.rss_item_id JOIN categories c ON ric.category_id = c.id JOIN article_interactions ai ON ri.id = ai.rss_item_id WHERE c.name = 'Machine Learning' AND ai.interaction_type = 'like'"
+        }
+    ]
+}
